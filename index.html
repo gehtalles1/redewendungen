@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="de" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Meisterklasse: Deutsche Redewandungen</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --surface-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent-premium: #b45309; 
+            --accent-premium-light: #fef3c7;
+            --success-clean: #16a34a;
+            --success-bg: #f0fdf4;
+            --error-clean: #dc2626;
+            --error-bg: #fef2f2;
+            --border-subtle: rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            --radius-pill: 9999px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --transition-base: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 40px 20px;
+        }
+
+        .wrapper {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            /* 首页标题渐变色 */
+            background: linear-gradient(135deg, #1e3a8a 0%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* 类别菜单列表 */
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .menu-card {
+            border: 1px solid var(--border-subtle);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-card-left h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+
+        .menu-card-left p {
+            font-size: 13px;
+        }
+
+        .menu-card-status {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            transition: var(--transition-base);
+            white-space: nowrap;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        /* 答题面板 */
+        .panel {
+            display: none;
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-base);
+        }
+
+        .btn-back:hover {
+            color: var(--text-primary);
+        }
+
+        .counter-badge {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-premium);
+            background: var(--accent-premium-light);
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
+        }
+
+        /* 进度条 */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: var(--radius-pill);
+            margin-bottom: 36px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-premium);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 题目展示 */
+        .quiz-meta {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .quiz-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            line-height: 1.25;
+        }
+
+        /* 选项列表 */
+        .options-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .btn-option {
+            background: var(--surface-card);
+            border: 1px solid #e2e8f0;
+            padding: 18px 24px;
+            border-radius: var(--radius-md);
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition-base);
+            line-height: 1.4;
+        }
+
+        .btn-option:hover:not(:disabled) {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-option.correct {
+            background: var(--success-bg) !important;
+            border-color: var(--success-clean) !important;
+            color: var(--success-clean) !important;
+            font-weight: 600;
+        }
+
+        .btn-option.wrong {
+            background: var(--error-bg) !important;
+            border-color: var(--error-clean) !important;
+            color: var(--error-clean) !important;
+        }
+
+        /* 解析卡片 */
+        .info-card {
+            display: none;
+            background: #fafafa;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border-subtle);
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .info-card-tag {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-premium);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .info-card-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .info-card-example {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--text-secondary);
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px dashed #e2e8f0;
+        }
+
+        .panel-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: #ffffff;
+            border: none;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-base);
+            display: none;
+        }
+
+        .btn-primary:hover {
+            background: #000000;
+        }
+
+        /* 结算界面 */
+        .result-layout {
+            text-align: center;
+            padding: 32px 0;
+        }
+
+        .result-score {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .result-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .btn-full {
+            background: var(--text-primary);
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-base);
+            width: 100%;
+        }
+
+        .btn-full:hover {
+            background: #000000;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 24px 12px; }
+            header h1 { font-size: 24px; }
+            .panel { padding: 24px 16px; border-radius: var(--radius-md); }
+            .quiz-title { font-size: 22px; margin-bottom: 24px; }
+            .btn-option { padding: 14px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <header id="main-header">
+            <h1>Meisterklasse: Deutsche Redewandungen</h1>
+            <p>50 essenzielle Ausdrücke für Fortgeschrittene</p>
+        </header>
+
+        <!-- 主菜单界面 -->
+        <div id="menu-screen" class="menu-grid"></div>
+
+        <!-- 答题界面 -->
+        <div id="quiz-screen" class="panel">
+            <div class="panel-header">
+                <button class="btn-back" onclick="showMenu()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Menü
+                </button>
+                <div id="progress-text" class="counter-badge">Frage 1 / 10</div>
+            </div>
+            
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-fill"></div>
+            </div>
+
+            <div class="quiz-meta">Bedeutung wählen</div>
+            <div id="idiom-display" class="quiz-title">--</div>
+            
+            <div id="options-list" class="options-stack"></div>
+
+            <div id="explanation-box" class="info-card">
+                <div class="info-card-tag">Erklärung</div>
+                <div id="explanation-text" class="info-card-text">--</div>
+                <div id="example-text" class="info-card-example">--</div>
+            </div>
+
+            <div class="panel-actions">
+                <button id="next-btn" class="btn-primary" onclick="nextQuestion()">Weiter</button>
+            </div>
+        </div>
+
+        <!-- 结算界面 -->
+        <div id="result-screen" class="panel result-layout">
+            <div class="result-score" id="result-score">0 / 10</div>
+            <div class="result-title" id="result-title">Ausgezeichnet!</div>
+            <div class="result-desc" id="result-comment">--</div>
+            <button class="btn-full" onclick="showMenu()">Zurück zum Menü</button>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            // Kategorie 1: Alltag & Gewohnheiten
+            { id: 1, cat: 1, idiom: "Blau machen", options: ["Einen Raum blau streichen", "Unberechtigt von der Arbeit oder Schule fernbleiben", "Sehr traurig und depressiv sein", "Ein neues Kleidungsstück ausprobieren"], correct: 1, meaning: "Unberechtigt von der Arbeit oder Schule fernbleiben (翘课/旷工)", example: "Er hatte keine Lust auf die Prüfung, deshalb hat er einfach blau gemacht." },
+            { id: 2, cat: 1, idiom: "Auf Messers Schneide stehen", options: ["In einer sehr kritischen oder gefährlichen Situation sein", "Ein exquisites Abendessen zubereiten", "Sich beim Rasieren verletzen", "Ein strenges Urteil fällen"], correct: 0, meaning: "In einer sehr kritischen, unsicheren oder gefährlichen Situation sein (命悬一线/凶多吉少)", example: "Wegen der Wirtschaftskrise steht die Zukunft der gesamten Firma auf Messers Schneide." },
+            { id: 3, cat: 1, idiom: "Alles auf eine Karte setzen", options: ["Ein Kartenspiel gewinnen", "Geografie studieren", "Alles riskieren, um ein bestimmtes Ziel zu erreichen", "Nur mit Kreditkarte bezahlen"], correct: 2, meaning: "Alles riskieren, um ein bestimmtes Ziel zu erreichen (孤注一掷)", example: "Er hat seinen Job gekündigt und alles auf eine Karte gesetzt, um sein eigenes Startup zu gründen." },
+            { id: 4, cat: 1, idiom: "Schwein haben", options: ["Auf dem Bauernhof arbeiten", "Viel Fleisch essen", "Ein Haustier kaufen", "Großes, unerwartetes Glück haben"], correct: 3, meaning: "Großes, oft unerwartetes Glück haben (走运/行大运)", example: "Die Prüfung war schwer, aber ich habe Schwein gehabt: Es kamen genau meine Themen vor!" },
+            { id: 5, cat: 1, idiom: "Die Flinte ins Korn werfen", options: ["Die Landwirtschaft modernisieren", "Aufgeben oder den Mut verlieren", "Auf die Jagd gehen", "Ein Geheimnis verraten"], correct: 1, meaning: "Aufgeben oder den Mut verlieren (泄气/向困难低头/扔白旗)", example: "Auch wenn das Projekt im Moment schwierig ist, sollten wir nicht gleich die Flinte ins Korn werfen." },
+            { id: 6, cat: 1, idiom: "Auf großem Fuß leben", options: ["Sehr viel Geld ausgeben und luxuriös leben", "Große Schuhe kaufen müssen", "Viel Sport treiben", "Eine lange Reise machen"], correct: 0, meaning: "Sehr viel Geld ausgeben und im Luxus leben (挥霍无度/生活奢华)", example: "Seit ihrer Beförderung lebt sie auf großem Fuß und kauft nur noch Designerkleidung." },
+            { id: 7, cat: 1, idiom: "In den sauren Apfel beißen", options: ["Eine Diät machen", "Frisches Obst pflücken", "Eine unangenehme, aber notwendige Aufgabe erledigen", "Sich über das Essen beschweren"], correct: 2, meaning: "Eine unangenehme, aber notwendige Aufgabe zähneknirschend erledigen (硬着头皮做不愿做的事)", example: "Ich muss wohl in den sauren Apfel beißen und das ganze Wochenende für die Steuererklärung opfern." },
+            { id: 8, cat: 1, idiom: "Auf der faulen Haut liegen", options: ["Eine Hautkrankheit haben", "Sich im Urlaub sonnen", "Nichts tun oder faulenzen", "Sehr fleißig arbeiten"], correct: 2, meaning: "Nichts tun oder intensiv faulenzen (偷懒/无所事事)", example: "Anstatt für die Schule zu lernen, liegt er den ganzen Tag nur auf der faulen Haut." },
+            { id: 9, cat: 1, idiom: "Zwei Fliegen mit einer Klappe schlagen", options: ["Insekten im Haus bekämpfen", "Zwei Dinge gleichzeitig mit einer einzigen Aktion erledigen", "Ein großes Problem ignorieren", "Zweimal denselben Fehler machen"], correct: 1, meaning: "Zwei Dinge gleichzeitig mit einer einzigen Aktion gewinnbringend erledigen (一箭双雕/一石二鸟)", example: "Wenn ich zu Fuß zur Arbeit gehe, schlage ich zwei Fliegen mit einer Klappe: Ich spare Geld und mache Sport." },
+            { id: 10, cat: 1, idiom: "Jemanden im Regen stehen lassen", options: ["Einen Regenschirm teilen", "Jemandem in einer schwierigen Situation die Hilfe verweigern", "Eine Verabredung im Freien absagen", "Jemanden draußen vergessen"], correct: 1, meaning: "Jemandem in einer schwierigen Situation nicht helfen oder im Stich lassen (让某人陷入困境不管)", example: "Als ich finanzielle Probleme hatte, hat mein bester Freund mich einfach im Regen stehen lassen." },
+
+            // Kategorie 2: Gefühle & Beziehungen
+            { id: 11, cat: 2, idiom: "Jmdm. Honig um den Mund schmieren", options: ["Ein süßes Frühstück zubereiten", "Jemandem die Lippen pflegen", "Jemandem übertrieben schmeicheln, um Vorteile zu erlangen", "Jemanden beim Essen stören"], correct: 2, meaning: "Jemandem übertrieben schmeicheln, um einen persönlichen Vorteil zu erlangen (拍马屁/阿谀奉承)", example: "Er schmiert dem Chef ständig Honig um den Mund, weil er befördert werden will." },
+            { id: 12, cat: 2, idiom: "Auf Wolke sieben schweben", options: ["Meteorologie studieren", "Überglücklich, oft frisch verliebt sein", "Den Verstand verlieren", "Flugangst haben"], correct: 1, meaning: "Überglücklich, meist frisch verliebt sein (处于热恋中/飘飘然的高兴)", example: "Seit er Anna kennengelernt hat, Lukas nur noch auf Wolke sieben." },
+            { id: 13, cat: 2, idiom: "Jmdm. einen Korb geben", options: ["Einen Einkaufsantrag ablehnen", "Jemandem beim Umzug helfen", "Ein Geschenk basteln", "Einen Liebesantrag oder eine Einladung abweisen"], correct: 3, meaning: "Einen Liebesantrag, eine Date-Einladung oder ein Angebot kühl abweisen (拒绝某人的追求/给某人吃闭门羹)", example: "Er hat sie nach einem Date gefragt, aber sie hat ihm leider einen Korb gegeben." },
+            { id: 14, cat: 2, idiom: "Jmdm. auf die Nerven gehen", options: ["Eine medizinische Massage machen", "Jemanden massiv stören oder irritieren", "Ein tiefes Gespräch führen", "Jemandem Angst machen"], correct: 1, meaning: "Jemanden durch Verhalten oder Geräusche massiv stören oder irritieren (惹恼某人/让某人烦躁)", example: "Das laute Kaugummikauen meines Kollegen geht mir tierisch auf die Nerven." },
+            { id: 15, cat: 2, idiom: "Schmetterlinge im Bauch haben", options: ["Eine Magenverstimmung haben", "Aufgeregt und glücklich verliebt sein", "Sehr hungrig sein", "Angst vor Insekten haben"], correct: 1, meaning: "Das nervöse, aber wunderschöne Gefühl des Verliebtseins spüren (怦然心动/因恋爱而情绪激动)", example: "Jedes Mal, wenn ich sie sehe, habe ich sofort Schmetterlinge im Bauch." },
+            { id: 16, cat: 2, idiom: "Aus allen Wolken fallen", options: ["Völlig überrascht, fassungslos oder schockiert sein", "Ein Flugzeugunglück überleben", "Das Wetter falsch vorhersagen", "Sehr ungeschickt sein"], correct: 0, meaning: "Völlig überrascht, fassungslos oder schockiert über eine Nachricht sein (大吃一惊/恍然大悟)", example: "Als ich hörte, dass die Schule geschlossen wird, fiel ich aus allen Wolken." },
+            { id: 17, cat: 2, idiom: "Die Nase voll haben", options: ["Eine Erkältung haben", "Etwas sehr gut riechen können", "Genug von einer nervigen Sache oder Situation haben", "Stolz und arrogant sein"], correct: 2, meaning: "Genug von einer Sache oder Situation haben, die einen frustriert (厌烦/够了/再也无法忍受)", example: "Ich habe die Nase voll von deinen ständigen Ausreden! Sag mir endlich die Wahrheit." },
+            { id: 18, cat: 2, idiom: "Jmdm. fällt ein Stein vom Herzen", options: ["Ein medizinisches Problem lösen", "Erleichterung spüren, nachdem eine Sorge vorbei ist", "Sich bei einer Wanderung verletzen", "Jemanden schwer enttäuschen"], correct: 1, meaning: "Große Erleichterung spüren, nachdem eine Sorge oder Gefahr vorbei ist (如释重负/心里的石头落地了)", example: "Als der Arzt sagte, alles sei in Ordnung, fiel mir wirklich ein Stein vom Herzen." },
+            { id: 19, cat: 2, idiom: "Sich in die Haare kriegen", options: ["Einen Friseurtermin vereinbaren", "Sich heftig miteinander streiten", "Sich gegenseitig stylen", "Eine neue Frisur ausprobieren"], correct: 1, meaning: "Heftig oder lautstark miteinander in Streit geraten (发生争吵)", example: "Die Geschwister kriegen sich wegen jeder Kleinigkeit sofort in die Haare." },
+            { id: 20, cat: 2, idiom: "Jmdm. die Daumen drücken", options: ["Jemanden physisch verletzen", "Jemandem viel Erfolg und Glück wünschen", "Handwerkliches Geschick zeigen", "Etwas heimlich stehlen"], correct: 1, meaning: "Jemandem fest die Daumen halten, um Erfolg oder Glück zu wünschen (为某人祝愿/祝成功)", example: "Morgen hast du deine Fahrprüfung? Ich drücke dir ganz fest die Daumen!" },
+
+            // Kategorie 3: Kommunikation & Argumentation
+            { id: 21, cat: 3, idiom: "Um den heißen Brei herumreden", options: ["Über das Kochen sprechen", "Das eigentliche Thema oder Problem nicht direkt ansprechen", "Sehr schnell und undeutlich sprechen", "Sich beim Essen verbrennen"], correct: 1, meaning: "Das Wichtige oder Unangenehme nicht direkt beim Namen nennen (拐弯抹角/顾左右而言他)", example: "Komm endlich zum Punkt und rede nicht ständig um den heißen Brei herum!" },
+            { id: 22, cat: 3, idiom: "Jmdm. ein Ohr abkauen", options: ["Sehr viel, ununterbrochen und ermüdend auf jemanden einreden", "Jemanden körperlich angreifen", "Ein Geheimnis ins Ohr flüstern", "Schlecht hören können"], correct: 0, meaning: "Sehr viel, ununterbrochen und ermüdend auf jemanden einreden (唠叨个没完)", example: "Meine Nachbarin hat mir im Treppenhaus mal wieder ein ganzes Ohr abgekaut." },
+            { id: 23, cat: 3, idiom: "Kein Blatt vor den Mund nehmen", options: ["Sehr leise sprechen", "Die Natur schützen", "Offen, direkt und schonungslos die Wahrheit sagen", "Sich den Mund zuhalten"], correct: 2, meaning: "Offen, direkt und ohne falsche Zurückhaltung die Meinung sagen (直言不讳/有话直说)", example: "Unser neuer Lehrer nimmt kein Blatt vor den Mund, wenn ihm unsere Leistung nicht passt." },
+            { id: 24, cat: 3, idiom: "Unter vier Augen sprechen", options: ["Eine Brille kaufen", "Ein privates Gespräch ohne weitere Zeugen führen", "Sich intensiv anschauen", "Ein Gruppentreffen organisieren"], correct: 1, meaning: "Ein absolut vertrauliches Gespräch zwischen nur zwei Personen führen (单独谈谈/私下说)", example: "Herr Müller, können wir das Projekt bitte kurz unter vier Augen besprechen?" },
+            { id: 25, cat: 3, idiom: "Jmdm. reinen Wein einschenken", options: ["Alkohol im Restaurant bestellen", "Jemandem endlich die ungeschminkte Wahrheit sagen", "Eine Party organisieren", "Ein guter Gastgeber sein"], correct: 1, meaning: "Jemandem die volle, oft schmerzhafte Wahrheit über eine Situation sagen (如实相告/说出真相)", example: "Nach wochenlangen Lügen musste ich ihm endlich reinen Wein einschenken." },
+            { id: 26, cat: 3, idiom: "Etwas durch die Blume sagen", options: ["Ein botanisches Gedicht aufsagen", "Ein florales Geschenk überreichen", "Eine Kritik nur vorsichtig, sanft und indirekt ausdrücken", "Sich unklar ausdrücken"], correct: 2, meaning: "Eine Kritik oder unangenehme Wahrheit nur sehr vorsichtig und schonend verpacken (委婉地表达)", example: "Weil sie ihn nicht verletzen wollte, hat sie ihm ihre Absage durch die Blume gesagt." },
+            { id: 27, cat: 3, idiom: "Tacheles reden", options: ["Eine fremde Sprache lernen", "Völlig unverblümt, offen und unmissverständlich die Meinung sagen", "Lautstark schimpfen", "Über Politik diskutieren"], correct: 1, meaning: "Völlig unverblümt, klar und unmissverständlich Klartext reden (打开天窗说亮话)", example: "Jetzt müssen wir mal Tacheles reden: Wer übernimmt endlich die Verantwortung dafür?" },
+            { id: 28, cat: 3, idiom: "Auf den Busch klopfen", options: ["Im Wald spazieren gehen", "Vorsichtig und geschickt versuchen, Informationen herauszufinden", "Lärm im Garten machen", "Jemanden erschrecken"], correct: 1, meaning: "Vorsichtig, diplomatisch oder tastend versuchen, ein Geheimnis herauszufinden (试探/敲山震虎)", example: "Ich habe mal beim Chef auf den Busch geklopft, um zu sehen, ob es Weihnachtsgeld gibt." },
+            { id: 29, cat: 3, idiom: "Den Nagel auf den Kopf treffen", options: ["Handwerklich fehlerfrei arbeiten", "Das Wesentliche einer Sache exakt richtig benennen", "Sich heftig verletzen", "Ein Ziel knapp verfehlen"], correct: 1, meaning: "Das Wesentliche oder die Ursache einer Sache vollkommen exakt auf den Punkt bringen (一针见血/切中要害)", example: "Mit deiner Analyse der Situation hast du den Nagel auf den Kopf getroffen!" },
+            { id: 30, cat: 3, idiom: "Öl ins Feuer gießen", options: ["Einen Küchenbrand löschen", "Einen bestehenden Konflikt absichtlich noch weiter verschlimmern", "Ein physikalisches Experiment machen", "Vorsichtig agieren"], correct: 1, meaning: "Einen bestehenden Streit oder Konflikt durch Worte oder Taten noch weiter anheizen (火上浇油)", example: "Sie ist sowieso schon wütend. Wenn du jetzt lachst, gießt du nur noch Öl ins Feuer." },
+
+            // Kategorie 4: Denkweisen & Missverständnisse
+            { id: 41, cat: 4, idiom: "Auf dem Schlauch stehen", options: ["Im Garten arbeiten", "Etwas Offensichtliches im Moment einfach nicht verstehen", "Sehr sportlich sein", "Sich weigern, wegzugehen"], correct: 1, meaning: "Etwas Offensichtliches oder Einfaches im Moment einfach nicht begreifen (反应迟钝/没转过弯来)", example: "Wie lautet das Passwort noch mal? Entschuldigung, ich stehe gerade völlig auf dem Schlauch." },
+            { id: 42, cat: 4, idiom: "Jmdm. einen Bären aufbinden", options: ["Im Zoo arbeiten", "Jemandem eine unwahre, fantastische Geschichte als Wahrheit erzählen", "Ein schweres Paket tragen", "Jemanden herzlich umarmen"], correct: 1, meaning: "Jemandem eine unwahre Geschichte scherzhaft als Wahrheit verkaufen (编瞎话骗某人)", example: "Glaub ihm kein Wort! Er will dir nur einen Bären aufbinden." },
+            { id: 43, cat: 4, idiom: "Sich etwas hinter die Ohren schreiben", options: ["Sich ein Tattoo stechen lassen", "Undeutlich schreiben", "Sich eine wichtige Warnung oder Information ganz fest merken", "Sich die Ohren reinigen"], correct: 2, meaning: "Sich eine wichtige Lektion oder Information dauerhaft und fest merken (牢牢记住/铭记在心)", example: "Schreib dir das hinter die Ohren: Ohne Fleiß kein Preis!" },
+            { id: 44, cat: 4, idiom: "Zwei linke Hände haben", options: ["Ein medizinisches Phänomen haben", "Extrem ungeschickt bei handwerklichen Arbeiten sein", "Linkshänder sein", "Sehr kreativ sein"], correct: 1, meaning: "Extrem ungeschickt oder tollpatschig bei handwerklichen Arbeiten sein (笨手笨脚)", example: "Frag lieber nicht meinen Bruder, ob er das Regal aufbaut. Er hat zwei linke Hände." },
+            { id: 45, cat: 4, idiom: "Den Teufel an die Wand malen", options: ["Ein düsteres Gemälde malen", "Sich für Halloween verkleiden", "Das Schlimmste befürchten und unnötig pessimistisch sein", "Religiöse Symbole studieren"], correct: 2, meaning: "Das Schlimmstmögliche befürchten und die Situation unnötig pessimistisch darstellen (预言灾难/说丧气话)", example: "Wir wissen noch gar nicht, ob das Projekt scheitert. Mal also nicht gleich den Teufel an die Wand!" },
+            { id: 46, cat: 4, idiom: "Ein Brett vor dem Kopf haben", options: ["Eine Holzmaske tragen", "Etwas ganz Offensichtliches einfach nicht verstehen oder sehen", "Kopfschmerzen haben", "Sehr dumm geboren sein"], correct: 1, meaning: "Etwas ganz Offensichtliches blockiert einfach nicht verstehen (脑子不开窍/执迷不悟)", example: "Ich habe die ganze Zeit nach meiner Brille gesucht, obwohl ich sie auf der Nase trug. Ich hatte ein Brett vor dem Kopf." },
+            { id: 47, cat: 4, idiom: "Kalte Füße bekommen", options: ["Im Winter frieren", "Kurz vor einer wichtigen Entscheidung plötzlich Angst oder Zweifel kriegen", "Sich erkälten", "Schlecht durchblutet sein"], correct: 1, meaning: "Kurz vor einem wichtigen Ereignis plötzlich Angst oder Zweifel bekommen (临阵退缩/临场逃跑)", example: "Zwei Tage vor der Hochzeit hat der Bräutigam plötzlich kalte Füße bekommen." },
+            { id: 48, cat: 4, idiom: "Ins Fettnäpfchen treten", options: ["In der Küche ausrutschen", "Unabsichtlich etwas sagen oder tun, das peinlich ist oder andere kränkt", "An Gewicht zunehmen", "Ein neues Restaurant testen"], correct: 1, meaning: "Unabsichtlich ein Thema ansprechen, das peinlich ist oder andere kränkt (踩雷/言行失检做出尴尬事)", example: "Ich habe ihn nach seiner Frau gefragt, ohne zu wissen, dass sie geschieden sind. Da bin ich voll ins Fettnäpfchen getreten." },
+            { id: 49, cat: 4, idiom: "Tomaten auf den Augen haben", options: ["Eine Allergische Reaktion haben", "Etwas Offensichtliches, das direkt vor einem liegt, einfach übersehen", "Gerne Gemüse essen", "Müde sein"], correct: 1, meaning: "Etwas absolut Offensichtliches, das direkt vor einem liegt, einfach übersehen (睁眼瞎/视而不见)", example: "Die Schlüssel liegen doch direkt auf dem Tisch! Du hast wohl Tomaten auf den Augen." },
+            { id: 50, cat: 4, idiom: "Den Faden verlieren", options: ["Beim Nähen einen Fehler machen", "Beim Sprechen plötzlich vergessen, was man eigentlich sagen wollte", "Die Orientierung im Wald verlieren", "Unpünktlich sein"], correct: 1, meaning: "Beim Sprechen plötzlich vergessen, worüber man reden wollte (忘词/断了思路)", example: "Entschuldigung, wo war ich stehen geblieben? Ich habe gerade völlig den Faden verloren." },
+
+            // Kategorie 5: Probleme & Herausforderungen
+            { id: 41, cat: 5, idiom: "Da liegt der Hund begraben", options: ["Ein Haustier beerdigen", "Das ist genau die eigentliche Ursache des Problems", "Einen Schatz im Garten finden", "Eine traurige Nachricht erhalten"], correct: 1, meaning: "Das ist genau der entscheidende Punkt oder die eigentliche Ursache des Problems (问题的症结所在)", example: "Die Software stürzt immer ab, wenn man zu schnell klickt. Ah, genau da liegt der Hund begraben!" },
+            { id: 42, cat: 5, idiom: "Jmdm. die Leviten lesen", options: ["Ein religiöses Buch vorlesen", "Jemanden wegen eines Fehlers sehr streng zurechtweisen oder schimpfen", "Jemandem eine Gute-Nacht-Geschichte erzählen", "Ein Lied singen"], correct: 1, meaning: "Jemanden wegen eines Fehlers sehr streng zurechtweisen oder schimpfen (严厉训斥某人/数落一顿)", example: "Als der Sohn mitten in der Nacht nach Hause kam, hat der Vater ihm ordentlich die Leviten gelesen." },
+            { id: 43, cat: 5, idiom: "Ins Gras beißen", options: ["Vegetarier werden", "Ein Picknick machen", "Sterben (wird meist salopp verwendet)", "Sport im Freien treiben"], correct: 2, meaning: "Salopp oder umgangssprachlich für sterben (见阎王/玩儿完/翘挑子)", example: "Im Actionfilm sind am Ende fast alle Bösewichte ins Gras gebissen." },
+            { id: 44, cat: 5, idiom: "Eine Extrawurst verlangen", options: ["Beim Grillen hungrig sein", "Eine Sonderbehandlung oder ein Privileg fordern", "Sich ungesund ernähren", "Mehr Geld verdienen wollen"], correct: 1, meaning: "Eine unberechtigte Sonderbehandlung oder ein exklusives Privileg fordern (提出特殊要求/索取特权)", example: "Alle müssen sich an die Regeln halten. Warum musst du immer eine Extrawurst verlangen?" },
+            { id: 45, cat: 5, idiom: "Die Kirche im Dorf lassen", options: ["Ein historisches Gebäude restaurieren", "Nicht übertreiben und sachlich oder realistisch bleiben", "In einer kleinen Stadt wohnen", "Religiös sein"], correct: 1, meaning: "Nicht übertreiben, auf dem Teppich bleiben und sachlich bleiben (不要过甚其词/适可而止)", example: "Ja, wir haben einen kleinen Fehler gemacht, aber lasst die Kirche im Dorf, es ist keine Katastrophe." },
+            { id: 46, cat: 5, idiom: "Auf Sand bauen", options: ["Ein Strandhaus errichten", "Ein Projekt auf einer völlig unsicheren Basis planen", "Gerne am Meer Urlaub machen", "Kinderleicht spielen"], correct: 1, meaning: "Ein Projekt oder eine Idee auf einer völlig unsicheren Basis aufbauen (根基不稳/空中楼阁)", example: "Ohne solide Marktforschung ist dein neuer Businessplan komplett auf Sand gebaut." },
+            { id: 47, cat: 5, idiom: "Jmdm. das Wasser nicht reichen können", options: ["In der Wüste Durst leiden", "Viel schlechter oder weniger talentiert sein als jemand anderes", "Jemandem beim Kellnern helfen", "Unfreundlich sein"], correct: 1, meaning: "Leistungsmäßig oder intellektuell weitaus schlechter sein als jemand anderes (望尘莫及/比不上某人)", example: "Sie ist eine exzellente Pianistin. In der Stadt kann ihr niemand das Wasser reichen." },
+            { id: 48, cat: 5, idiom: "Den Gürtel enger schnallen", options: ["Eine Diät machen müssen", "Sparsamer leben und die Ausgaben deutlich reduzieren", "Neue Kleidung kaufen", "Sich sportlich fit halten"], correct: 1, meaning: "Wegen Geldmangels sparsamer leben und Ausgaben reduzieren müssen (勒紧裤腰带过日子)", example: "Da mein Mann seine Arbeit verloren hat, müssen wir den Gürtel etwas enger schnallen." },
+            { id: 49, cat: 5, idiom: "Aus der Haut fahren", options: ["Sich tätowieren lassen", "Völlig unerwartet verreisen", "Wütend werden und komplett die Beherrschung verlieren", "Sich unwohl fühlen"], correct: 2, meaning: "Vor Wut oder Frustration komplett die Beherrschung verlieren (勃然大怒/气急败坏)", example: "Wenn ich sehe, wie schlampig diese Arbeit gemacht wurde, könnte ich glatt aus der Haut fahren." },
+            { id: 50, cat: 5, idiom: "Den Kopf in den Sand stecken", options: ["Am Strand schlafen", "Ein Problem einfach ignorieren, statt nach einer Lösung zu suchen", "Sehr schüchtern sein", "Sich vor der Sonne schützen"], correct: 1, meaning: "Ein Problem feige ignorieren, statt aktiv nach Lösungen zu suchen (鸵鸟政策/逃避现实)", example: "Probleme lösen sich nicht von alleine. Es bringt nichts, den Kopf in den Sand zu stecken." }
+        ];
+
+        // 首页类别及配色方案
+        const categories = [
+            { id: 1, name: "Alltag & Gewohnheiten", zh: "日常行为与习惯", bg: "linear-gradient(135deg, #ffffff 60%, #f0f9ff 100%)", border: "#0284c7" },
+            { id: 2, name: "Gefühle & Beziehungen", zh: "情感与人际关系", bg: "linear-gradient(135deg, #ffffff 60%, #fff1f2 100%)", border: "#e11d48" },
+            { id: 3, name: "Kommunikation & Argumentation", zh: "沟通与表达", bg: "linear-gradient(135deg, #ffffff 60%, #fef9c3 100%)", border: "#ca8a04" },
+            { id: 4, name: "Denkweisen & Missverständnisse", zh: "思维与误区", bg: "linear-gradient(135deg, #ffffff 60%, #e0e7ff 100%)", border: "#4f46e5" },
+            { id: 5, name: "Probleme & Herausforderungen", zh: "核心难关与挑战", bg: "linear-gradient(135deg, #ffffff 60%, #f3e8ff 100%)", border: "#9333ea" }
+        ];
+
+        let currentCategory = null;
+        let categoryQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+        
+        let completionLog = JSON.parse(localStorage.getItem('redewandungen_scores_v2') || '{}');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function initMenu() {
+            const menuScreen = document.getElementById('menu-screen');
+            menuScreen.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const isDone = completionLog[cat.id] !== undefined;
+                const scoreText = isDone ? `✅ ${completionLog[cat.id]} / 10 gelöst` : '0 / 10 Fragen';
+                
+                // 动态状态标签颜色
+                const statusBg = isDone ? 'var(--success-bg)' : '#f1f5f9';
+                const statusColor = isDone ? 'var(--success-clean)' : 'var(--text-secondary)';
+
+                const card = document.createElement('div');
+                card.className = `menu-card`;
+                card.style.background = cat.bg;
+                card.style.borderLeft = `6px solid ${cat.border}`;
+                card.onclick = () => startCategory(cat.id);
+                card.innerHTML = `
+                    <div class="menu-card-left">
+                        <h3 style="color: var(--text-primary);">Kategorie ${cat.id}: ${cat.name}</h3>
+                        <style>
+                            .menu-card:hover h3 { color: ${cat.border} !important; }
+                        </style>
+                        <p style="color: var(--text-secondary); font-weight: 500;">${cat.zh}</p>
+                    </div>
+                    <div class="menu-card-status" style="background: ${statusBg}; color: ${statusColor};">${scoreText}</div>
+                `;
+                menuScreen.appendChild(card);
+            });
+            document.getElementById('main-header').style.display = 'block';
+        }
+
+        function startCategory(catId) {
+            currentCategory = catId;
+            let rawQuestions = allQuestions.filter(q => q.cat === catId);
+            categoryQuestions = shuffle([...rawQuestions]);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('main-header').style.display = 'none';
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            document.getElementById('next-btn').style.display = 'none';
+            document.getElementById('explanation-box').style.display = 'none';
+            
+            const q = categoryQuestions[currentQuestionIndex];
+            
+            document.getElementById('progress-text').innerText = `Frage ${currentQuestionIndex + 1} / 10`;
+            const progressPercent = (currentQuestionIndex / 10) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+            
+            document.getElementById('idiom-display').innerText = q.idiom;
+            
+            const optionsList = document.getElementById('options-list');
+            optionsList.innerHTML = '';
+            
+            let optionsWithIndex = q.options.map((opt, i) => ({ text: opt, originalIndex: i }));
+            shuffle(optionsWithIndex);
+
+            optionsWithIndex.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-option';
+                btn.innerText = item.text;
+                btn.onclick = () => selectOption(btn, item.originalIndex, q.correct);
+                optionsList.appendChild(btn);
+            });
+        }
+
+        function selectOption(clickedBtn, originalSelectedIndex, correctIndex) {
+            if (answered) return;
+            answered = true;
+            
+            const q = categoryQuestions[currentQuestionIndex];
+            const buttons = document.querySelectorAll('.btn-option');
+            
+            if (originalSelectedIndex === correctIndex) {
+                clickedBtn.classList.add('correct');
+                score++;
+            } else {
+                clickedBtn.classList.add('wrong');
+                buttons.forEach(btn => {
+                    if (btn.innerText === q.options[correctIndex]) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            document.getElementById('explanation-text').innerText = q.meaning;
+            document.getElementById('example-text').innerText = `Beispiel: "${q.example}"`;
+            document.getElementById('explanation-box').style.display = 'block';
+            
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < 10) {
+                loadQuestion();
+            } else {
+                finishCategory();
+            }
+        }
+
+        function finishCategory() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            completionLog[currentCategory] = Math.max(completionLog[currentCategory] || 0, score);
+            localStorage.setItem('redewandungen_scores_v2', JSON.stringify(completionLog));
+            
+            document.getElementById('result-score').innerText = `${score} / 10`;
+            
+            const titleEl = document.getElementById('result-title');
+            const commentEl = document.getElementById('result-comment');
+            
+            if (score === 10) {
+                titleEl.innerText = "Perfekt! Unglaublich!";
+                commentEl.innerText = "Du hast ein perfektes Ergebnis erzielt! Du sprichst wie ein deutscher Muttersprachler.";
+            } else if (score >= 8) {
+                titleEl.innerText = "Ausgezeichnete Leistung!";
+                commentEl.innerText = "Großartig! Du beherrschst fast alle Redewandungen dieser Kategorie fehlerfrei.";
+            } else if (score >= 5) {
+                titleEl.innerText = "Gut gemacht!";
+                commentEl.innerText = "Ein solides Fundament. Schau dir die falschen Antworten noch einmal an, um dich zu verbessern.";
+            } else {
+                titleEl.innerText = "Weiter üben!";
+                commentEl.innerText = "Aller Anfang ist schwer. Wiederhole diese Kategorie noch einmal, um die Redewandungen zu festigen.";
+            }
+        }
+
+        function showMenu() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'flex';
+            initMenu();
+        }
+
+        window.onload = initMenu;
+    </script>
+</body>
+</html>
